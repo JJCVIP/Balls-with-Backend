@@ -1,6 +1,6 @@
 {
     "name": "dev container",
-    "image": "jjcvip-balls:latest",
+    "image": "ghcr.io/jjcvip/balls-physics:latest",
     "forwardPorts": [3000],
     "customizations": {
     "vscode": {
