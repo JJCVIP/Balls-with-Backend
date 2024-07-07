@@ -1,0 +1,22 @@
+# Node JS
+node_modules/
+
+
+# C++ build files
+/build/
+*.obj
+*.o
+*.a
+*.d
+*.lib
+*.dll
+*.so
+*.dylib
+*.exe
+*.out
+*.test
+*.Makefile
+*.node
+*.mk
+
+backend/build

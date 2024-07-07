@@ -1,0 +1,19 @@
+{
+  "name": "jjcvip-balls",
+  "version": "1.0.0",
+  "description": "Learning how to mix c++ and JS",
+  "main": "server.js",
+  "scripts": {
+    "test": "node ./backend/balls.js",
+    "build": "node-gyp configure build --directory=backend",
+    "clean": "node-gyp clean --directory=backend"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-addon-api": "^8.0.0",
+    "node-gyp": "^10.1.0"
+  },
+  "gypfile": true
+}

@@ -1,0 +1,15 @@
+{
+    "name": "dev container",
+    "image": "jjcvip-balls:latest",
+    "forwardPorts": [3000],
+    "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools"  // C/C++ extension for VS Code
+      ],
+      "settings": {
+            "terminal.integrated.shell.linux": "/bin/sh"
+        }
+    }
+  }
+}
