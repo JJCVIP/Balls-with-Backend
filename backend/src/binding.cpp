@@ -86,8 +86,9 @@ Napi::Array getBallPositions(const Napi::CallbackInfo& info){
 }
 
 void update(const Napi::CallbackInfo& info){
-    
-    model.update();
+    // Napi::Env env = info.Env();
+    double time_delta = info[0].As<Napi::Number>().DoubleValue();
+    model.update(time_delta);
 }
 
 // Initialization function for the module

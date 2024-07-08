@@ -16,6 +16,9 @@ std::vector<std::array<double,2>> Model::getBallPosititions() const{
     return positions;
 }
 
-void Model::update(){
-    std::cout << "Updating";
+void Model::update(const double time_delta){
+   //update all the balls
+   for(auto& ball : balls){
+        ball.update(time_delta);
+   }
 }

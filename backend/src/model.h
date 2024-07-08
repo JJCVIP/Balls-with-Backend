@@ -9,7 +9,7 @@ class Model{
     std::vector<Ball> balls;
 
     void addBall(const Ball& ball);
-    void update();
+    void update(const double time_delta);
 
     std::vector<std::array<double,2>> getBallPosititions() const; 
 
