@@ -1,7 +1,7 @@
 import * as PIXI from './pixi.mjs'
 
 const app = new PIXI.Application();
-await app.init({width : 640, height : 360});
+await app.init({width : 1200, height : 652});
 
 document.body.appendChild(app.canvas);
 
@@ -15,7 +15,7 @@ document.getElementById('addBall').addEventListener('click', ()=>{
         headers:{
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({x: Math.random()* 1000, y: Math.random() * 1000})
+        body: JSON.stringify({x: Math.random()* 640, y: Math.random() * 360})
     })
     .then(response => response.ok ? console.log("ball added") : console.error("Error adding ball"));
 });

@@ -9,5 +9,5 @@ std::array<double,2> Ball::getPosition() const{
 }
 
 void Ball::update(const double time_delta){
-    position[1] -= time_delta;
+    position[1] += time_delta;
 }

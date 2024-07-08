@@ -36,7 +36,10 @@ app.get('/api/getBallPositions', (req, res) => {
 
 //API Endpoint to update model
 app.post('/api/update', (req,res)=>{
-    balls.update(0.2);
+    balls.update(0.5);
+    balls.update(0.5);
+    balls.update(0.5);
+    balls.update(0.5);
     //set OK Status
     res.sendStatus(200);
 });
