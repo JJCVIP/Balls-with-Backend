@@ -1,9 +1,20 @@
 import * as PIXI from './pixi.mjs'
 
 const app = new PIXI.Application();
-await app.init({width : 1200, height : 652});
 
+const CANVAS_WIDTH = 1200;
+const CANVAS_HIEGHT = 652;
+await app.init({width : CANVAS_WIDTH, height : CANVAS_HIEGHT});
 document.body.appendChild(app.canvas);
+
+fetch('/api/InitModel',{
+    method: 'POST',
+    headers:{
+        'Content-Type' : 'application/json'
+    },
+    body: JSON.stringify({width:CANVAS_WIDTH, height:CANVAS_HIEGHT})
+})
+.then(response => response.ok ? console.log("Model Loaded Sucessfully") : console.error("Error adding Model"));
 
 
 
@@ -15,7 +26,7 @@ document.getElementById('addBall').addEventListener('click', ()=>{
         headers:{
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({x: Math.random()* 640, y: Math.random() * 360})
+        body: JSON.stringify({x: Math.random()* CANVAS_WIDTH, y: Math.random() *  CANVAS_HIEGHT})
     })
     .then(response => response.ok ? console.log("ball added") : console.error("Error adding ball"));
 });
@@ -67,3 +78,11 @@ app.ticker.add((ticker)=>{
     })
     .then(response => response.ok ? getBallPositions() : console.error("Error Updating"));
 })
+
+
+//unloading
+window.addEventListener('beforeunload', (event) => {
+    fetch('/api/DelModel', {
+        method: 'POST'
+    })
+  });

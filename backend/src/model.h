@@ -5,8 +5,13 @@
 #include "ball.h"
 
 class Model{
+ private:
+    short width;
+    short height;
+    std::vector<Ball> balls = {};
+
  public:
-    std::vector<Ball> balls;
+    Model(short width , short height);
 
     void addBall(const Ball& ball);
     void update(const double time_delta);

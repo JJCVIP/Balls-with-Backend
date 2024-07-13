@@ -1,5 +1,7 @@
 #include "model.h"
 
+Model::Model(short width, short height): width(width), height(height) {}
+
 
 void Model::addBall(const Ball& ball) {
     balls.push_back(ball);

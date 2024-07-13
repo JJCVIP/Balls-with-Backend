@@ -3,7 +3,43 @@
 #include "model.h"
 #include "ball.h"
 
-static Model model;
+//create a model pointer to point to the dynamic constructed model
+static Model* model;
+
+void InitModel(const Napi::CallbackInfo& info){
+    //get node enviroment
+    Napi::Env env = info.Env();
+
+    //Type Error
+    if(info.Length() < 2 || (!info[0].IsNumber() || !info[1].IsNumber())){
+        std::cout << info[0].IsNumber() << " " << info[1].IsNumber() << std::endl;
+        Napi::TypeError::New(env, "Expected 2 short integers ... Failed to create Model").ThrowAsJavaScriptException();
+        return;
+    }
+
+    const short width = info[0].As<Napi::Number>().Int32Value();
+    const short height = info[1].As<Napi::Number>().Int32Value();
+
+    // Delete existing model if it exists
+    if (model != nullptr) {
+        delete model;
+        model = nullptr;
+    }
+
+    // Debug statement
+    std::cout << "Initializing model with width: " << width << ", height: " << height << std::endl;
+
+    model = new Model(width, height);
+    std::cout << "Model initialized successfully." << std::endl;
+
+}
+
+void DelModel(const Napi::CallbackInfo& info){
+    if (model != nullptr) {
+        delete model;
+        model = nullptr;
+    }
+}
 
 void addBall (const Napi::CallbackInfo& info){
     //get Node Enviroment
@@ -35,7 +71,7 @@ void addBall (const Napi::CallbackInfo& info){
     Ball ball(position);
 
     //adds the Ball to the model
-    model.addBall(ball);
+    model->addBall(ball);
 };
 
 
@@ -65,7 +101,7 @@ Napi::Array getBallPositions(const Napi::CallbackInfo& info){
     Napi::Env env = info.Env();
 
     //get the array from model
-    std::vector<std::array<double,2>> position = model.getBallPosititions();
+    std::vector<std::array<double,2>> position = model->getBallPosititions();
 
     //create Napi Array
     Napi::Array napiArray = Napi::Array::New(env, position.size());
@@ -88,17 +124,24 @@ Napi::Array getBallPositions(const Napi::CallbackInfo& info){
 void update(const Napi::CallbackInfo& info){
     // Napi::Env env = info.Env();
     double time_delta = info[0].As<Napi::Number>().DoubleValue();
-    model.update(time_delta);
+    model->update(time_delta);
 }
 
 // Initialization function for the module
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     //Exports the Model to JS
+    exports.Set(Napi::String::New(env, "InitModel"), Napi::Function::New(env,InitModel));
+
+    //Exports deleting the Model
+    exports.Set(Napi::String::New(env, "DelModel"), Napi::Function::New(env, DelModel));
+
+    //Exports Add ball 
     exports.Set(Napi::String::New(env, "addBall"), Napi::Function::New(env,addBall));
     
     // Export the getBallsPositon to JavaScript
     exports.Set(Napi::String::New(env, "getBallPositions"), Napi::Function::New(env, getBallPositions));
 
+    // Exports the update func to JS
     exports.Set(Napi::String::New(env, "update"), Napi::Function::New(env,update));
     
     //Just something you always have to do here, returns the exports object

@@ -19,6 +19,22 @@ app.use(express.json());
 //serves the static files from the frontend directory
 app.use(express.static(path.join(__dirname, 'frontend')));
 
+//API Endpoint to Initilize the Model
+app.post('/api/InitModel', (req,res)=>{
+    const {width, height} = req.body;
+    console.log(`${width}   ${height}`);
+    balls.InitModel(width, height);
+    //send OK status
+    res.sendStatus(200);
+});
+
+//API Endpoint to Destruct the model
+app.post('/api/DelModel', (req,res)=>{
+    balls.DelModel();
+    //send OK Status
+    res.sendStatus(200);
+})
+
 //API Endpoint (whatever that is) to Add ball
 app.post('/api/addBall', (req, res) => {
     const { x , y } = req.body;
