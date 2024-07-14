@@ -47,7 +47,9 @@ document.getElementById('update').addEventListener('click', () =>{
 //balls Sprites
 const ballSpritesArray = new Array;
 
-
+//ball Container
+const ballsContainer = new PIXI.Container();
+app.stage.addChild(ballsContainer);
 
 function getBallPositions(){
     fetch('/api/getBallPositions')
@@ -61,13 +63,14 @@ function getBallPositions(){
 
             //const ball = PIXI.Sprite.from(ballTexture);
             ballSpritesArray.push(PIXI.Sprite.from(ballTexture));
-            app.stage.addChild(ballSpritesArray.at(-1));
+            ballSpritesArray.at(-1).width = 10;
+            ballSpritesArray.at(-1).height= 10;
+            ballsContainer.addChild(ballSpritesArray.at(-1));
 
         }
 
         while( data.length < ballSpritesArray.length){
-            app.stage.removeChild(ballSpritesArray.at(-1));
-            ballSpritesArray.pop();
+            ballsContainer.stage.removeChild(ballSpritesArray.pop());
         }
 
         //maps each of the data entries to a cooresponding sprite
