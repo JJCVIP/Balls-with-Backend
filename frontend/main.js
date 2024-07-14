@@ -4,7 +4,7 @@ const app = new PIXI.Application();
 
 const CANVAS_WIDTH = 1200;
 const CANVAS_HIEGHT = 652;
-await app.init({width : CANVAS_WIDTH, height : CANVAS_HIEGHT});
+await app.init({width : CANVAS_WIDTH, height : CANVAS_HIEGHT+20});
 document.body.appendChild(app.canvas);
 
 //Load Assets
