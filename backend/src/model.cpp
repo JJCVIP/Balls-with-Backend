@@ -1,6 +1,9 @@
 #include "model.h"
 
-Model::Model(short width, short height): width(width), height(height) {}
+Model::Model(short width, short height){
+    this->bounds[0] = width;
+    this->bounds[1] = height;
+}
 
 
 void Model::addBall(const Ball& ball) {
@@ -21,6 +24,7 @@ std::vector<std::array<double,2>> Model::getBallPosititions() const{
 void Model::update(const double time_delta){
    //update all the balls
    for(auto& ball : balls){
-        ball.update(time_delta);
+
+        ball.update(time_delta, bounds);
    }
 }

@@ -7,6 +7,10 @@ const CANVAS_HIEGHT = 652;
 await app.init({width : CANVAS_WIDTH, height : CANVAS_HIEGHT});
 document.body.appendChild(app.canvas);
 
+//Load Assets
+const ballTexture = await PIXI.Assets.load("/assets/Ball.png");
+
+//Set up c++ Model Object
 fetch('/api/InitModel',{
     method: 'POST',
     headers:{
@@ -39,34 +43,42 @@ document.getElementById('update').addEventListener('click', () =>{
     .then(response => response.ok ? getBallPositions() : console.error("Error Updating"));
 });
 
+
+//balls Sprites
+const ballSpritesArray = new Array;
+
+
+
 function getBallPositions(){
     fetch('/api/getBallPositions')
     .then(response => response.json())
     .then(raw => {
         const data = Array.from(raw);
+        console.log(data);
 
-        const positionDiv = document.getElementById('positions');
-        positionDiv.interHTML = '';
+        //ensure that the data array is the same size as the sprite array
+        while(data.length > ballSpritesArray.length){
 
-        data.forEach((position, index) => {
-            // New ball
-            if(app.stage.children?.[index] === undefined) {
-                const ball = new PIXI.Graphics();
-                ball.circle(position.x,position.y, 5);
-                ball.fill('red');
-                app.stage.addChild(ball);
-            }
-            // Update existing
-            else {
-                const ball = app.stage.children?.[index];
-                ball.x = position.x;
-                ball.y = position.y;
-            }
+            //const ball = PIXI.Sprite.from(ballTexture);
+            ballSpritesArray.push(PIXI.Sprite.from(ballTexture));
+            app.stage.addChild(ballSpritesArray.at(-1));
+
+        }
+
+        while( data.length < ballSpritesArray.length){
+            app.stage.removeChild(ballSpritesArray.at(-1));
+            ballSpritesArray.pop();
+        }
+
+        //maps each of the data entries to a cooresponding sprite
+        data.forEach((position, index) =>{
+            ballSpritesArray[index].x = position.x;
+            ballSpritesArray[index].y = position.y;
         });
+
     })
 }
 
-globalThis.app = app;
 
 let elapsed = 0;
 app.ticker.add((ticker)=>{
@@ -77,8 +89,16 @@ app.ticker.add((ticker)=>{
         method: 'POST'
     })
     .then(response => response.ok ? getBallPositions() : console.error("Error Updating"));
+
 })
 
+function update(){
+     //update balls
+    fetch('/api/update', {
+        method: 'POST'
+    })
+    .then(response => response.ok ? getBallPositions() : console.error("Error Updating"));
+}
 
 //unloading
 window.addEventListener('beforeunload', (event) => {

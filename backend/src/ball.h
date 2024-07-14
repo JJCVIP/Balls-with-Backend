@@ -11,5 +11,5 @@ class Ball{
     std::array<double,2> getPosition() const; 
 
     //ball updating
-    void update(const double time_delta);
+    void update(const double time_delta, const std::array<short,2>& bounds);
 };

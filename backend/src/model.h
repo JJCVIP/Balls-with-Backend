@@ -6,8 +6,8 @@
 
 class Model{
  private:
-    short width;
-    short height;
+    //Bounds Array, Width, Height
+    std::array<short,2> bounds;
     std::vector<Ball> balls = {};
 
  public:
@@ -17,6 +17,4 @@ class Model{
     void update(const double time_delta);
 
     std::vector<std::array<double,2>> getBallPosititions() const; 
-
-
 };
