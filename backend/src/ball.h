@@ -4,10 +4,17 @@
 
 class Ball{
  public:
+    double mass;
     std::array<double, 2> position;
     std::array<double, 2> velocity;
 
-    Ball(const std::array<double, 2>& position);
+    Ball(
+     const std::array<double, 2>& position,
+     const std::array<double, 2>& initial_velocity,
+     const double& mass
+     );
+   
+   
     std::array<double,2> getPosition() const; 
 
     //ball updating

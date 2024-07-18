@@ -67,33 +67,19 @@ void addBall (const Napi::CallbackInfo& info){
         obj.Get("y").As<Napi::Number>().DoubleValue()
     };
 
+    std::array<double,2> iniitial_velocity = {
+        0,
+        0
+    };
+
+    auto mass = double{10.0};
+
     //create a ball
-    Ball ball(position);
+    Ball ball(position, iniitial_velocity, mass);
 
     //adds the Ball to the model
     model->addBall(ball);
 };
-
-
-
-// Get Ball Position
-Napi::TypedArrayOf<double> getPosition(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
-
-    // Create an instance of Ball and call its testFunction method
-    std::array<double,2> inital_pos = {0,0};
-    Ball ball(inital_pos);
-    std::array<double,2> result = ball.getPosition();
-
-    Napi::TypedArrayOf<double> typedArray = Napi::TypedArrayOf<double>::New(env, result.size());
-
-    for(size_t i=0; i<result.size(); ++i){
-        typedArray[i] = result[i];
-    }
-
-    // Return the result as a Javascript typedArray
-    return typedArray;
-}
 
 //GetBallPosititions
 Napi::Array getBallPositions(const Napi::CallbackInfo& info){
