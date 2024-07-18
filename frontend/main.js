@@ -30,7 +30,13 @@ document.getElementById('addBall').addEventListener('click', ()=>{
         headers:{
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({x: Math.random()* CANVAS_WIDTH, y: Math.random() *  CANVAS_HIEGHT})
+        body: JSON.stringify({
+            x: Math.random()* CANVAS_WIDTH, 
+            y: Math.random() *  CANVAS_HIEGHT,
+            initial_vx: Math.random(),
+            initial_vy: Math.random(),
+            mass: 10
+        })
     })
     .then(response => response.ok ? console.log("ball added") : console.error("Error adding ball"));
 });

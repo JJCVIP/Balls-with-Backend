@@ -68,11 +68,11 @@ void addBall (const Napi::CallbackInfo& info){
     };
 
     std::array<double,2> iniitial_velocity = {
-        0,
-        0
+        obj.Get("initial_vx").As<Napi::Number>().DoubleValue(),
+        obj.Get("initial_vy").As<Napi::Number>().DoubleValue()
     };
 
-    auto mass = double{10.0};
+    auto mass = obj.Get("mass").As<Napi::Number>().DoubleValue();
 
     //create a ball
     Ball ball(position, iniitial_velocity, mass);

@@ -37,8 +37,8 @@ app.post('/api/DelModel', (req,res)=>{
 
 //API Endpoint (whatever that is) to Add ball
 app.post('/api/addBall', (req, res) => {
-    const { x , y } = req.body;
-    balls.addBall({ x , y });
+    const { x , y , initial_vx, initial_vy, mass } = req.body;
+    balls.addBall({ x , y, initial_vx, initial_vy, mass});
     //Send OK status
     res.sendStatus(200);
 });
