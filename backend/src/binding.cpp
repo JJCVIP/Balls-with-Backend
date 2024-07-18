@@ -75,7 +75,7 @@ void addBall (const Napi::CallbackInfo& info){
     auto mass = obj.Get("mass").As<Napi::Number>().DoubleValue();
 
     //create a ball
-    Ball ball(position, iniitial_velocity, mass);
+    Ball ball(mass, position, iniitial_velocity);
 
     //adds the Ball to the model
     model->addBall(ball);

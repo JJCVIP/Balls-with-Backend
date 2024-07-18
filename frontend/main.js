@@ -33,8 +33,8 @@ document.getElementById('addBall').addEventListener('click', ()=>{
         body: JSON.stringify({
             x: Math.random()* CANVAS_WIDTH, 
             y: Math.random() *  CANVAS_HIEGHT,
-            initial_vx: Math.random(),
-            initial_vy: Math.random(),
+            initial_vx: 10 * (Math.random() - 0.5),
+            initial_vy: 10 * (Math.random() - 0.5),
             mass: 10
         })
     })

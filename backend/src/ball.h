@@ -9,9 +9,9 @@ class Ball{
     std::array<double, 2> velocity;
 
     Ball(
+     const double& mass,
      const std::array<double, 2>& position,
-     const std::array<double, 2>& initial_velocity,
-     const double& mass
+     const std::array<double, 2>& initial_velocity
      );
    
    
