@@ -30,7 +30,9 @@ void Ball::update(const double time_delta, const std::array<short,2>& bounds){
         velocity[1] *= -0.9;
     }
 
-    if(position[0] == double(bounds[0] || position[0] == double{0.0})){
+    if(position[0] == static_cast<double>(bounds[0]) || position[0] == 0.0){
         velocity[0] *= -0.9;
     }
 }
+
+
