@@ -15,7 +15,7 @@ std::vector<std::array<double,2>> Model::getBallPosititions() const{
     std::vector<std::array<double,2>> positions;
     positions.reserve(balls.size());
     for(const auto& ball : balls){
-        positions.push_back(ball.getPosition());
+        positions.emplace_back(ball.getPosition());
     }
 
     return positions;

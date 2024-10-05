@@ -23,15 +23,15 @@ void Ball::update(const double time_delta, const std::array<short,2>& bounds){
     
 
     //clamp
-    position[0] = std::clamp(short(position[0]), short{0}, bounds[0]);
-    position[1] = std::clamp(short(position[1]), short{-32000}, bounds[1]);
+    position[0] = std::clamp(position[0], 0.0, static_cast<double>(bounds[0]));
+    position[1] = std::clamp(position[1], -32000.0, static_cast<double>(bounds[1]));
 
     if(position[1] == double(bounds[1])){
-        velocity[1] *= -0.9;
+        velocity[1] *= -1;
     }
 
     if(position[0] == static_cast<double>(bounds[0]) || position[0] == 0.0){
-        velocity[0] *= -0.9;
+        velocity[0] *= -0.6;
     }
 }
 
