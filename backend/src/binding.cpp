@@ -4,7 +4,7 @@
 #include "ball.h"
 
 //create a model pointer to point to the dynamic constructed model
-static Model* model;
+static std::unique_ptr<Model> model;
 
 void InitModel(const Napi::CallbackInfo& info){
     //get node enviroment
@@ -20,25 +20,13 @@ void InitModel(const Napi::CallbackInfo& info){
     const short width = info[0].As<Napi::Number>().Int32Value();
     const short height = info[1].As<Napi::Number>().Int32Value();
 
-    // Delete existing model if it exists
-    if (model != nullptr) {
-        delete model;
-        model = nullptr;
-    }
 
     // Debug statement
     std::cout << "Initializing model with width: " << width << ", height: " << height << std::endl;
 
-    model = new Model(width, height);
+     model = std::make_unique<Model>(width, height);
     std::cout << "Model initialized successfully." << std::endl;
 
-}
-
-void DelModel(const Napi::CallbackInfo& info){
-    if (model != nullptr) {
-        delete model;
-        model = nullptr;
-    }
 }
 
 void addBall (const Napi::CallbackInfo& info){
@@ -117,9 +105,6 @@ void update(const Napi::CallbackInfo& info){
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     //Exports the Model to JS
     exports.Set(Napi::String::New(env, "InitModel"), Napi::Function::New(env,InitModel));
-
-    //Exports deleting the Model
-    exports.Set(Napi::String::New(env, "DelModel"), Napi::Function::New(env, DelModel));
 
     //Exports Add ball 
     exports.Set(Napi::String::New(env, "addBall"), Napi::Function::New(env,addBall));

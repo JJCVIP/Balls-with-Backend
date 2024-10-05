@@ -28,13 +28,6 @@ app.post('/api/InitModel', (req,res)=>{
     res.sendStatus(200);
 });
 
-//API Endpoint to Destruct the model
-app.post('/api/DelModel', (req,res)=>{
-    balls.DelModel();
-    //send OK Status
-    res.sendStatus(200);
-})
-
 //API Endpoint (whatever that is) to Add ball
 app.post('/api/addBall', (req, res) => {
     const { x , y , initial_vx, initial_vy, mass } = req.body;

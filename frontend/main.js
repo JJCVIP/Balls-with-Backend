@@ -108,10 +108,3 @@ function update(){
     })
     .then(response => response.ok ? getBallPositions() : console.error("Error Updating"));
 }
-
-//unloading
-window.addEventListener('beforeunload', (event) => {
-    fetch('/api/DelModel', {
-        method: 'POST'
-    })
-  });
