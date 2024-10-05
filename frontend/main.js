@@ -35,7 +35,7 @@ document.getElementById('addBall').addEventListener('click', ()=>{
             y: Math.random() *  CANVAS_HIEGHT,
             initial_vx: 10 * (Math.random() - 0.5),
             initial_vy: 10 * (Math.random() - 0.5),
-            mass: 10
+            mass: Math.random() * 50
         })
     })
     .then(response => response.ok ? console.log("ball added") : console.error("Error adding ball"));
@@ -46,7 +46,7 @@ document.getElementById('update').addEventListener('click', () =>{
     fetch('/api/update', {
         method: 'POST'
     })
-    .then(response => response.ok ? getBallPositions() : console.error("Error Updating"));
+    .then(response => response.ok ? getBallData() : console.error("Error Updating"));
 });
 
 
@@ -57,10 +57,11 @@ const ballSpritesArray = new Array;
 const ballsContainer = new PIXI.Container();
 app.stage.addChild(ballsContainer);
 
-function getBallPositions(){
-    fetch('/api/getBallPositions')
+function getBallData(){
+    fetch('/api/getBallData')
     .then(response => response.json())
     .then(raw => {
+        console.log(raw);
         const data = Array.from(raw);
         console.log(data);
 
@@ -80,9 +81,11 @@ function getBallPositions(){
         }
 
         //maps each of the data entries to a cooresponding sprite
-        data.forEach((position, index) =>{
-            ballSpritesArray[index].x = position.x;
-            ballSpritesArray[index].y = position.y;
+        data.forEach((data, index) =>{
+            ballSpritesArray[index].x = data.x;
+            ballSpritesArray[index].y = data.y;
+            ballSpritesArray[index].width = data.mass;
+            ballSpritesArray[index].height = data.mass;
         });
 
     })
@@ -97,7 +100,7 @@ app.ticker.add((ticker)=>{
     fetch('/api/update', {
         method: 'POST'
     })
-    .then(response => response.ok ? getBallPositions() : console.error("Error Updating"));
+    .then(response => response.ok ? getBallData() : console.error("Error Updating"));
 
 })
 
@@ -106,5 +109,5 @@ function update(){
     fetch('/api/update', {
         method: 'POST'
     })
-    .then(response => response.ok ? getBallPositions() : console.error("Error Updating"));
+    .then(response => response.ok ? getBallData() : console.error("Error Updating"));
 }

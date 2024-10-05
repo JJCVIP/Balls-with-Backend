@@ -10,15 +10,14 @@ void Model::addBall(const Ball& ball) {
     balls.push_back(ball);
 }
 
-
-std::vector<std::array<double,2>> Model::getBallPosititions() const{
-    std::vector<std::array<double,2>> positions;
-    positions.reserve(balls.size());
+// There has to be a better way to do this with less memory allocation TODO
+std::vector<std::array<double,3>> Model::getBallData() const{
+    std::vector<std::array<double,3>> data;
+    data.reserve(balls.size());
     for(const auto& ball : balls){
-        positions.emplace_back(ball.getPosition());
+        data.emplace_back(ball.getData());
     }
-
-    return positions;
+    return data;
 }
 
 void Model::update(const double time_delta){

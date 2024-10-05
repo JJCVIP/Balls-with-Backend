@@ -4,8 +4,8 @@
 Ball::Ball(const double& mass, const std::array<double, 2>& initial_pos, const std::array<double,2>& initial_velocity)
 : mass(mass), position(initial_pos), velocity(initial_velocity){}
 
-std::array<double,2> Ball::getPosition() const{
-    return position;
+std::array<double,3> Ball::getData() const{
+    return std::array<double,3>{position[0],position[1],mass};
 }
 
 void Ball::update(const double time_delta, const std::array<short,2>& bounds){

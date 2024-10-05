@@ -36,11 +36,11 @@ app.post('/api/addBall', (req, res) => {
     res.sendStatus(200);
 });
 
-//API Endpoint to Get the Ball Positions
-app.get('/api/getBallPositions', (req, res) => {
-    const positions = balls.getBallPositions();
+//API Endpoint to Get the Ball Data
+app.get('/api/getBallData', (req, res) => {
+    const ballData = balls.getBallData();
     //sends postion JSON and if successful a 200 status
-    res.json(positions);
+    res.json(ballData);
 })
 
 //API Endpoint to update model

@@ -16,5 +16,5 @@ class Model{
     void addBall(const Ball& ball);
     void update(const double time_delta);
 
-    std::vector<std::array<double,2>> getBallPosititions() const; 
+    std::vector<std::array<double,3>> getBallData() const; 
 };

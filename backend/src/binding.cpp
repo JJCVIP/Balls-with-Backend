@@ -70,25 +70,26 @@ void addBall (const Napi::CallbackInfo& info){
 };
 
 //GetBallPosititions
-Napi::Array getBallPositions(const Napi::CallbackInfo& info){
+Napi::Array getBallData(const Napi::CallbackInfo& info){
     //Get the enviroment
     Napi::Env env = info.Env();
 
     //get the array from model
-    std::vector<std::array<double,2>> position = model->getBallPosititions();
+    std::vector<std::array<double,3>> data = model->getBallData();
 
     //create Napi Array
-    Napi::Array napiArray = Napi::Array::New(env, position.size());
+    Napi::Array napiArray = Napi::Array::New(env, data.size());
     
     //Populate Napi Array
-    for(size_t i = 0; i < position.size(); ++i){
+    for(size_t i = 0; i < data.size(); ++i){
         //create object to stuff in the array
-        Napi::Object positionObj = Napi::Object::New(env);
+        Napi::Object ballDataObj = Napi::Object::New(env);
         //set the objects info
-        positionObj.Set("x", Napi::Number::New(env, position[i][0]));
-        positionObj.Set("y", Napi::Number::New(env, position[i][1]));
+        ballDataObj.Set("x", Napi::Number::New(env, data[i][0]));
+        ballDataObj.Set("y", Napi::Number::New(env, data[i][1]));
+        ballDataObj.Set("mass", Napi::Number::New(env, data[i][2]));
 
-        napiArray[i] = positionObj;
+        napiArray[i] = ballDataObj;
     }
 
     //return the array
@@ -110,7 +111,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set(Napi::String::New(env, "addBall"), Napi::Function::New(env,addBall));
     
     // Export the getBallsPositon to JavaScript
-    exports.Set(Napi::String::New(env, "getBallPositions"), Napi::Function::New(env, getBallPositions));
+    exports.Set(Napi::String::New(env, "getBallData"), Napi::Function::New(env, getBallData));
 
     // Exports the update func to JS
     exports.Set(Napi::String::New(env, "update"), Napi::Function::New(env,update));
