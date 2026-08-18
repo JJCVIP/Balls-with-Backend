@@ -63,7 +63,7 @@ void addBall (const Napi::CallbackInfo& info){
     }
 
     //get a velocity array for the ball constructor
-    std::array<double,2> iniitial_velocity = {
+    std::array<double,2> initial_velocity = {
         obj.Get("initial_vx").As<Napi::Number>().DoubleValue(),
         obj.Get("initial_vy").As<Napi::Number>().DoubleValue()
     };
@@ -78,7 +78,7 @@ void addBall (const Napi::CallbackInfo& info){
     auto mass = obj.Get("mass").As<Napi::Number>().DoubleValue();
 
     //create a ball
-    Ball ball(mass, position, iniitial_velocity);
+    Ball ball(mass, position, initial_velocity);
 
     //adds the Ball to the model
     model->addBall(ball);
