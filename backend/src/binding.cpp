@@ -29,6 +29,34 @@ void InitModel(const Napi::CallbackInfo& info){
 
 }
 
+// Initialization function for the module
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+    //Exports the Model to JS
+    exports.Set(Napi::String::New(env, "InitModel"), Napi::Function::New(env,InitModel));
+
+    //Exports Add ball 
+    exports.Set(Napi::String::New(env, "addBall"), Napi::Function::New(env,addBall));
+    
+    // Export the getBallsPositon to JavaScript
+    exports.Set(Napi::String::New(env, "getBallData"), Napi::Function::New(env, getBallData));
+
+    // Exports the update func to JS
+    exports.Set(Napi::String::New(env, "update"), Napi::Function::New(env,update));
+    
+    //Just something you always have to do here, returns the exports object
+    return exports;
+}
+
+
+// Helper function to check if Model is initilized before attempting to use it
+bool ModelInitilizedCheck(Napi::Env env) {
+    if (!model){
+        Napi::Error::New(env, "Model appears to not be initilized. Perhaps you forgot to Call InitModel").ThrowAsJavaScriptException();
+        return true;
+    }
+    return false;
+}
+
 void addBall (const Napi::CallbackInfo& info){
     //get Node Enviroment
     Napi::Env env = info.Env();
@@ -38,6 +66,9 @@ void addBall (const Napi::CallbackInfo& info){
         Napi::TypeError::New(env, "Expected an Object..... Failed to add Ball").ThrowAsJavaScriptException();
         return;
     }
+
+    // Check that model succesfully initilized
+    if (ModelInitilizedCheck(env)) return;
 
     //load the JS object as a Napi Object
     Napi::Object obj = info[0].As<Napi::Object>();
@@ -89,6 +120,9 @@ Napi::Array getBallData(const Napi::CallbackInfo& info){
     //Get the enviroment
     Napi::Env env = info.Env();
 
+    // Check that model succesfully initilized
+    if (ModelInitilizedCheck(env)) return Napi::Array::New(env, 0);
+
     //get the array from model
     std::vector<std::array<double,3>> data = model->getBallData();
 
@@ -112,27 +146,13 @@ Napi::Array getBallData(const Napi::CallbackInfo& info){
 }
 
 void update(const Napi::CallbackInfo& info){
-    // Napi::Env env = info.Env();
+    Napi::Env env = info.Env();
+
+    // Check that model succesfully initilized
+    if (ModelInitilizedCheck(env)) return;
+
     double time_delta = info[0].As<Napi::Number>().DoubleValue();
     model->update(time_delta);
-}
-
-// Initialization function for the module
-Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    //Exports the Model to JS
-    exports.Set(Napi::String::New(env, "InitModel"), Napi::Function::New(env,InitModel));
-
-    //Exports Add ball 
-    exports.Set(Napi::String::New(env, "addBall"), Napi::Function::New(env,addBall));
-    
-    // Export the getBallsPositon to JavaScript
-    exports.Set(Napi::String::New(env, "getBallData"), Napi::Function::New(env, getBallData));
-
-    // Exports the update func to JS
-    exports.Set(Napi::String::New(env, "update"), Napi::Function::New(env,update));
-    
-    //Just something you always have to do here, returns the exports object
-    return exports;
 }
 
 // Register the module with Node.js
