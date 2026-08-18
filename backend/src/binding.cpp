@@ -45,7 +45,7 @@ void addBall (const Napi::CallbackInfo& info){
 
     //Check that x,y exist and are numbers
     if(!obj.Get("x").IsNumber() || !obj.Get("y").IsNumber()){
-        Napi::TypeError::New(env, "Properties x and y Must be Numbers!").ThrowAsJavaScriptException();
+        Napi::TypeError::New(env, "Properties x and y must be Numbers!").ThrowAsJavaScriptException();
         return;
     }
 
@@ -55,11 +55,26 @@ void addBall (const Napi::CallbackInfo& info){
         obj.Get("y").As<Napi::Number>().DoubleValue()
     };
 
+
+    //Check that initial_vx,vy exist and are numbers
+    if(!obj.Get("initial_vx").IsNumber() || !obj.Get("initial_vy").IsNumber()){
+        Napi::TypeError::New(env, "Properties initial_vx and initial_vy must be Numbers!").ThrowAsJavaScriptException();
+        return;
+    }
+
+    //get a velocity array for the ball constructor
     std::array<double,2> iniitial_velocity = {
         obj.Get("initial_vx").As<Napi::Number>().DoubleValue(),
         obj.Get("initial_vy").As<Napi::Number>().DoubleValue()
     };
 
+    //Check that mass exist and is a number
+    if(!obj.Get("mass").IsNumber()){
+        Napi::TypeError::New(env, "Property mass must be a Number!").ThrowAsJavaScriptException();
+        return;
+    }
+
+    //gets a mass for ball constructor
     auto mass = obj.Get("mass").As<Napi::Number>().DoubleValue();
 
     //create a ball
